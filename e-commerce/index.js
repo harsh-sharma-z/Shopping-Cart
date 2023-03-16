@@ -6,7 +6,9 @@ const PORT = 3000;
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 
-
+const cookieParser=require('cookie-parser');
+const session=require('express-session');
+const flash=require('connect-flash');
 
 // All Product Routes
 const productRouter = require("./routes/productRoutes");
@@ -29,6 +31,19 @@ app.set("views", path.join(__dirname, "views" ))
 mongoose.connect("mongodb://127.0.0.1:27017/shopping-cart")
 .then(()=> console.log(" DB CONNECTED!"))
 .catch((err)=> console.log(err));
+
+
+
+const sessionflash={
+    secret: 'this is a flash session',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { }
+};
+
+app.use(session(sessionflash));
+app.use(flash());
+
 
 
 app.get("/", (req,res)=>{

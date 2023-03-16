@@ -8,8 +8,8 @@ const Review = require("../models/Review")
 router.get("/products", async(req,res)=>{
 
    const products =  await Product.find({});
-
-    res.render("./products/product" , {products})
+   const message=req.flash("success")
+    res.render("./products/product" , {products,message})
 
 })
 
@@ -28,6 +28,8 @@ router.get("/products/new", async(req,res)=>{
     const {name , img , desc , price} = req.body;
 
     await Product.create({name , img , desc , price});
+
+    req.flash("success", "your product has been created successfully")
 
      res.redirect("/products")
 
